@@ -24,12 +24,11 @@ class ScannerController extends Controller
 
         foreach ($devices as $item) {
 
-            if (
-                empty($item['ip']) ||
-                empty($item['mac'])
-            ) {
+            if (empty($item['ip'])) {
                 continue;
             }
+            
+            $item['mac'] = $item['mac'] ?? null;
 
             /*
             |--------------------------------------------------------------------------
@@ -149,54 +148,19 @@ class ScannerController extends Controller
             if (!$device) {
 
                 $newDevice = Device::create([
-
-                    'ip_address' =>
-                        $item['ip'],
-
-                    'mac_address' =>
-                        $item['mac'],
-
-                    'hostname' =>
-                        $item['hostname'] ?? null,
-
-                    'vendor' =>
-                        $item['vendor'] ?? null,
-
-                    'device_type' =>
-                        $item['device_type'] ?? null,
-
-                    'system_name' =>
-                        $item['system_name'] ?? null,
-
-                    'system_description' =>
-                        $item['system_description'] ?? null,
-
-                    'snmp_enabled' =>
-                        $item['snmp_enabled'] ?? false,
-
-                    'snmp_version' =>
-                        $item['snmp_version'] ?? null,
-
-                    'status' =>
-                        'ONLINE',
-
-                    'first_seen_at' =>
-                        now(),
-
-                    'last_seen_at' =>
-                        now(),
-
-                    'last_scan_at' =>
-                        now(),
-
-                    'last_event' =>
-                        'YANGI QURILMA',
-
-                    'last_event_message' =>
-                        'Yangi qurilma tarmoqqa ulandi',
-
-                    'last_event_at' =>
-                        now(),
+                    'ip_address' => $item['ip'],
+                    'mac_address' => $item['mac'], // NULL bo‘lishi mumkin
+                    'hostname' => $item['hostname'] ?? null,
+                    'vendor' => $item['vendor'] ?? null,
+                    'device_type' => $item['device_type'] ?? null,
+                    'system_name' => $item['system_name'] ?? null,
+                    'system_description' => $item['system_description'] ?? null,
+                    'snmp_enabled' => $item['snmp_enabled'] ?? false,
+                    'snmp_version' => $item['snmp_version'] ?? null,
+                    'status' => 'ONLINE',
+                    'first_seen_at' => now(),
+                    'last_seen_at' => now(),
+                    'last_scan_at' => now(),
                 ]);
 
                 DeviceLog::create([
