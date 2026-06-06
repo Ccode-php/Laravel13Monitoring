@@ -24,11 +24,12 @@ class ScannerController extends Controller
 
         foreach ($devices as $item) {
 
-            if (empty($item['ip'])) {
+            if (
+                empty($item['ip']) ||
+                empty($item['mac'])
+            ) {
                 continue;
             }
-            
-            $item['mac'] = $item['mac'] ?? null;
 
             /*
             |--------------------------------------------------------------------------
