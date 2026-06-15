@@ -150,7 +150,7 @@ class ScannerController extends Controller
 
                 $newDevice = Device::create([
                     'ip_address' => $item['ip'],
-                    'mac_address' => $item['mac'], // NULL bo‘lishi mumkin
+                    'mac_address' => $item['mac'],
                     'hostname' => $item['hostname'] ?? null,
                     'vendor' => $item['vendor'] ?? null,
                     'device_type' => $item['device_type'] ?? null,
@@ -159,9 +159,14 @@ class ScannerController extends Controller
                     'snmp_enabled' => $item['snmp_enabled'] ?? false,
                     'snmp_version' => $item['snmp_version'] ?? null,
                     'status' => 'ONLINE',
+                
                     'first_seen_at' => now(),
                     'last_seen_at' => now(),
                     'last_scan_at' => now(),
+                
+                    'last_event' => 'YANGI QURILMA',
+                    'last_event_message' => 'Yangi qurilma aniqlandi',
+                    'last_event_at' => now(),
                 ]);
 
                 DeviceLog::create([
