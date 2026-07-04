@@ -12,35 +12,28 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('device_logs', function (Blueprint $table) {
-            $table->id();
 
+            $table->id();
+        
             $table->foreignId('device_id')
                 ->constrained()
                 ->cascadeOnDelete();
-
+        
             $table->string('event_type');
-
+        
             $table->string('severity')
                 ->default('INFO');
-
-            $table->string('old_ip')
-                ->nullable();
-
-            $table->string('new_ip')
-                ->nullable();
-
-            $table->string('old_mac')
-                ->nullable();
-
-            $table->string('new_mac')
-                ->nullable();
-
-            $table->text('message')
-                ->nullable();
-
-            $table->json('data')
-                ->nullable();
-
+        
+            $table->string('old_ip')->nullable();
+        
+            $table->string('new_ip')->nullable();
+        
+            $table->string('old_mac')->nullable();
+        
+            $table->string('new_mac')->nullable();
+        
+            $table->text('message')->nullable();
+        
             $table->timestamps();
         });
     }

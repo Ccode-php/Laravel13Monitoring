@@ -7,19 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 class DeviceLog extends Model
 {
     protected $fillable = [
-        'device_id',
-        'event_type',
-        'severity',
-        'old_ip',
-        'new_ip',
-        'old_mac',
-        'new_mac',
-        'message',
-        'data',
-    ];
 
-    protected $casts = [
-        'data' => 'array',
+        'device_id',
+    
+        'event_type',
+    
+        'severity',
+    
+        'old_ip',
+    
+        'new_ip',
+    
+        'old_mac',
+    
+        'new_mac',
+    
+        'message',
+    
     ];
 
     public function device()

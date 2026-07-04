@@ -12,28 +12,22 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('devices', function (Blueprint $table) {
+
             $table->id();
+        
+            $table->string('name')->nullable();
+        
             $table->string('ip_address');
+        
             $table->string('mac_address')->unique();
-            $table->string('hostname')->nullable();
-            $table->string('vendor')->nullable();
-            $table->string('device_type')->nullable();
-            $table->string('system_name')->nullable();
-            $table->text('system_description')->nullable();
-            $table->boolean('snmp_enabled')->default(false);
-            $table->string('snmp_version')->nullable();
-            $table->string('snmp_community')->nullable();
+        
             $table->enum('status', [
                 'ONLINE',
                 'OFFLINE'
             ])->default('ONLINE');
-            $table->timestamp('first_seen_at')->nullable();
+        
             $table->timestamp('last_seen_at')->nullable();
-            $table->json('extra_data')->nullable();
-            $table->timestamp('last_scan_at')->nullable();
-            $table->string('last_event')->nullable();
-            $table->text('last_event_message')->nullable();
-            $table->timestamp('last_event_at')->nullable();
+        
             $table->timestamps();
         });
     }

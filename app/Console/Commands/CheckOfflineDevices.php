@@ -9,54 +9,39 @@ use App\Models\DeviceLog;
 class CheckOfflineDevices extends Command
 {
     protected $signature =
-        'devices:check-offline';
+    'devices:check-offline';
 
     protected $description =
-        'Offline qurilmalarni tekshiradi';
+    'Offline qurilmalarni tekshiradi';
 
     public function handle()
     {
-        $devices = Device::where(
-            'status',
-            'ONLINE'
-        )
-        ->where(
-            'last_seen_at',
-            '<',
-            now()->subMinutes(2)
-        )
-        ->get();
+        $devices = Device::where('status', 'ONLINE')
+            ->whereNotNull('last_seen_at')
+            ->where('last_seen_at', '<', now()->subMinutes(2))
+            ->get();
 
         foreach ($devices as $device) {
 
             $device->update([
 
                 'status' =>
-                    'OFFLINE',
-
-                'last_event' =>
-                    'QURILMA OFFLINE',
-
-                'last_event_message' =>
-                    'Qurilma tarmoqdan uzildi',
-
-                'last_event_at' =>
-                    now(),
+                'OFFLINE',
             ]);
 
             DeviceLog::create([
 
                 'device_id' =>
-                    $device->id,
+                $device->id,
 
                 'event_type' =>
-                    'DEVICE_OFFLINE',
+                'DEVICE_OFFLINE',
 
                 'severity' =>
-                    'CRITICAL',
+                'CRITICAL',
 
                 'message' =>
-                    'Qurilma offline bo‘ldi',
+                'Qurilma offline bo‘ldi',
             ]);
         }
 

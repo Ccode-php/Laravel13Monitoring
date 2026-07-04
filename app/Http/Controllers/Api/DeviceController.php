@@ -36,19 +36,15 @@ class DeviceController extends Controller
 
         $request->validate([
 
-            'hostname' => 'nullable|string|max:255',
-
-            'vendor' => 'nullable|string|max:255',
-        ]);
-
-        $device->update([
-
-            'hostname' =>
-            $request->hostname,
-
-            'vendor' =>
-            $request->vendor,
-        ]);
+            'name'=>'required|max:255'
+            
+            ]);
+            
+            $device->update([
+            
+            'name'=>$request->name
+            
+            ]);
 
         return response()->json([
             'success' => true,
