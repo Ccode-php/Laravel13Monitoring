@@ -16,17 +16,9 @@ class DeviceController extends Controller
     public function show($id)
     {
         return Device::with([
-
             'logs' => function ($query) {
-
                 $query->latest();
-            },
-
-            'metrics' => function ($query) {
-
-                $query->latest()->limit(20);
-            },
-
+            }
         ])->findOrFail($id);
     }
 
@@ -36,15 +28,15 @@ class DeviceController extends Controller
 
         $request->validate([
 
-            'name'=>'required|max:255'
-            
-            ]);
-            
-            $device->update([
-            
-            'name'=>$request->name
-            
-            ]);
+            'name' => 'required|max:255'
+
+        ]);
+
+        $device->update([
+
+            'name' => $request->name
+
+        ]);
 
         return response()->json([
             'success' => true,
