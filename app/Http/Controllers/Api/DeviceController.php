@@ -10,7 +10,9 @@ class DeviceController extends Controller
 {
     public function index()
     {
-        return Device::latest()->paginate(50);
+        return Device::with('latestLog')
+            ->latest()
+            ->paginate(50);
     }
 
     public function show($id)
