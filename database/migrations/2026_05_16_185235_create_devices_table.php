@@ -28,6 +28,11 @@ return new class extends Migration
         
             $table->timestamp('last_seen_at')->nullable();
         
+            $table->foreignId('switch_port_id')
+                ->nullable()
+                ->constrained('switch_ports')
+                ->nullOnDelete();
+        
             $table->timestamps();
         });
     }

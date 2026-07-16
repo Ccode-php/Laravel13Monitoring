@@ -5,27 +5,37 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Device;
 use App\Models\DeviceLog;
+use App\Models\NetworkSwitch;
 use App\Models\ScanTask;
+use App\Services\TopologyService;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(TopologyService $topology)
     {
         return response()->json([
 
+            /*
+            |--------------------------------------------------------------------------
+            | Statistika
+            |--------------------------------------------------------------------------
+            */
+
             'stats' => [
 
-                'total' => Device::count(),
+                'totalDevices' => Device::count(),
 
-                'online' => Device::where(
+                'onlineDevices' => Device::where(
                     'status',
                     'ONLINE'
                 )->count(),
 
-                'offline' => Device::where(
+                'offlineDevices' => Device::where(
                     'status',
                     'OFFLINE'
                 )->count(),
+
+                'totalSwitches' => NetworkSwitch::count(),
 
                 'totalNetworks' => ScanTask::count(),
 
@@ -36,17 +46,39 @@ class DashboardController extends Controller
 
             ],
 
-            'devices' => Device::select(
-                'id',
-                'name',
-                'ip_address',
-                'status'
-            )->get(),
+            /*
+            |--------------------------------------------------------------------------
+            | Qurilmalar
+            |--------------------------------------------------------------------------
+            */
+
+            'devices' => Device::with('switchPort')
+                ->orderBy('name')
+                ->get(),
+
+            /*
+            |--------------------------------------------------------------------------
+            | Switchlar
+            |--------------------------------------------------------------------------
+            */
+
+            'switches' => NetworkSwitch::with('ports')
+                ->orderBy('hostname')
+                ->get(),
+
+            /*
+            |--------------------------------------------------------------------------
+            | Oxirgi hodisalar
+            |--------------------------------------------------------------------------
+            */
 
             'logs' => DeviceLog::with('device')
                 ->latest()
-                ->limit(10)
+                ->limit(20)
                 ->get(),
+
+
+            'topology' => $topology->build(),
 
         ]);
     }

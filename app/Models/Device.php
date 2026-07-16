@@ -15,10 +15,12 @@ class Device extends Model
         'mac_address',
 
         'status',
+
         'last_seen_at',
 
-    ];
+        'switch_port_id',
 
+    ];
 
     public function logs()
     {
@@ -28,5 +30,12 @@ class Device extends Model
     public function latestLog()
     {
         return $this->hasOne(DeviceLog::class)->latestOfMany();
+    }
+
+    public function switchPort()
+    {
+        return $this->belongsTo(
+            SwitchPort::class
+        );
     }
 }

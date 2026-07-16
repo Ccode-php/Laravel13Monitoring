@@ -1,13 +1,13 @@
 <?php
 
-use App\Http\Controllers\Api\DashboardController;
-use Illuminate\Support\Facades\Route;
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\DeviceController;
 use App\Http\Controllers\Api\ScannerController;
 use App\Http\Controllers\Api\ScanTaskController;
+use App\Http\Controllers\Api\TopologyController;
 
-Route::post('/scanner/report-batch', [ScannerController::class, 'reportBatch']);
 
 Route::get('/devices', [DeviceController::class, 'index']);
 
@@ -24,5 +24,8 @@ Route::put(
 
 Route::apiResource('scan-tasks', ScanTaskController::class);
 
-Route::get('/dashboard', [DashboardController::class, 'index']
-);
+Route::get('/dashboard', [DashboardController::class, 'index']);
+
+Route::get('/topology',[TopologyController::class, 'index']);
+
+Route::post('/scanner/report-batch', [ScannerController::class, 'reportBatch']);
