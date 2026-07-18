@@ -35,8 +35,6 @@ class DashboardController extends Controller
                     'OFFLINE'
                 )->count(),
 
-                'totalSwitches' => NetworkSwitch::count(),
-
                 'totalNetworks' => ScanTask::count(),
 
                 'activeNetworks' => ScanTask::where(
@@ -46,25 +44,6 @@ class DashboardController extends Controller
 
             ],
 
-            /*
-            |--------------------------------------------------------------------------
-            | Qurilmalar
-            |--------------------------------------------------------------------------
-            */
-
-            'devices' => Device::with('switchPort')
-                ->orderBy('name')
-                ->get(),
-
-            /*
-            |--------------------------------------------------------------------------
-            | Switchlar
-            |--------------------------------------------------------------------------
-            */
-
-            'switches' => NetworkSwitch::with('ports')
-                ->orderBy('hostname')
-                ->get(),
 
             /*
             |--------------------------------------------------------------------------
@@ -76,9 +55,6 @@ class DashboardController extends Controller
                 ->latest()
                 ->limit(20)
                 ->get(),
-
-
-            'topology' => $topology->build(),
 
         ]);
     }
