@@ -11,5 +11,12 @@ class ScanTask extends Model
         'network',
 
         'enabled',
+
+    ];
+
+    protected $casts = [
+
+        'enabled' => 'boolean',
+
     ];
 }
