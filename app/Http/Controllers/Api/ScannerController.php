@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-
 use App\Models\Device;
 use App\Models\DeviceLog;
 use App\Models\NetworkSwitch;
@@ -26,14 +24,11 @@ class ScannerController extends Controller
 
         $devices = $request->input('devices', []);
 
-        $switches = $request->input('switches', []);
+        $switches = $request->input('switches');
 
-        Log::info('Scanner payload', $request->all());
-
-        Log::info('Switches value', [
-            'switches' => $switches,
-            'type' => gettype($switches),
-        ]);
+        if (!is_array($switches)) {
+            $switches = [];
+        }
 
         /*
         |--------------------------------------------------------------------------
