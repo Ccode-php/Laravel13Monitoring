@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 use App\Models\Device;
 use App\Models\DeviceLog;
@@ -26,6 +27,13 @@ class ScannerController extends Controller
         $devices = $request->input('devices', []);
 
         $switches = $request->input('switches', []);
+
+        Log::info('Scanner payload', $request->all());
+
+        Log::info('Switches value', [
+            'switches' => $switches,
+            'type' => gettype($switches),
+        ]);
 
         /*
         |--------------------------------------------------------------------------
@@ -234,7 +242,6 @@ class ScannerController extends Controller
                 foreach ($port['macs'] ?? [] as $m) {
 
                     $macs[] = strtoupper($m);
-
                 }
 
                 SwitchPort::updateOrCreate(
@@ -256,9 +263,7 @@ class ScannerController extends Controller
                     ]
 
                 );
-
             }
-
         }
 
         /*
@@ -292,6 +297,5 @@ class ScannerController extends Controller
             'success' => true,
 
         ]);
-
     }
 }
